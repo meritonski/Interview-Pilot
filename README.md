@@ -65,16 +65,3 @@ Har du frågor om integritet:
 
 ---
 
-## GitHub Pages (för Support + Privacy URL)
-
-Om du vill använda denna sida som din publika Support/Privacy-länk:
-
-1. Gå till repo **Settings → Pages**
-2. **Source:** Deploy from a branch
-3. **Branch:** `main`
-4. **Folder:** `/ (root)`
-5. **Save**
-
-När det är klart kan du använda din GitHub Pages-länk i App Store Connect:
-- **Support URL:** din Pages-länk
-- **Privacy Policy URL:** samma Pages-länk
