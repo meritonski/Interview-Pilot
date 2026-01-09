@@ -1,1 +1,854 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Interview Pilot — Support & Privacy</title>
+  <meta name="description" content="Interview Pilot — Support, Privacy Policy och README på en sida." />
+  <style>
+    :root{
+      --bg0:#07080c;
+      --bg1:#0b0d16;
+      --card:rgba(255,255,255,.08);
+      --card2:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.14);
+      --stroke2:rgba(255,255,255,.10);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.68);
+      --muted2:rgba(255,255,255,.52);
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --shadow2: 0 12px 30px rgba(0,0,0,.38);
+      --r:22px;
+      --r2:18px;
+      --max:980px;
+      --grad: linear-gradient(90deg, rgba(76,189,255,.9), rgba(173,108,255,.9), rgba(65,223,169,.9));
+      --grad2: linear-gradient(135deg, rgba(76,189,255,.26), rgba(173,108,255,.22), rgba(65,223,169,.18));
+      --link: rgba(170,214,255,.92);
+      --ok: rgba(120,255,195,.9);
+      --warn: rgba(255,210,120,.9);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--text);
+      background: radial-gradient(1200px 600px at 15% -10%, rgba(76,189,255,.22), transparent 55%),
+                  radial-gradient(900px 500px at 85% 10%, rgba(173,108,255,.20), transparent 55%),
+                  radial-gradient(900px 600px at 40% 110%, rgba(65,223,169,.14), transparent 55%),
+                  linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+
+    /* Aurora blobs */
+    .aurora{
+      position:fixed;
+      inset:-20%;
+      pointer-events:none;
+      filter: blur(42px);
+      opacity:.95;
+      z-index:-1;
+    }
+    .blob{
+      position:absolute;
+      width:520px;height:520px;border-radius:50%;
+      mix-blend-mode:screen;
+      opacity:.30;
+      animation: drift 12s linear infinite;
+    }
+    .b1{left:5%;top:0;background:rgba(76,189,255,.55); animation-duration: 15s;}
+    .b2{right:10%;top:10%;background:rgba(173,108,255,.55); animation-duration: 18s;}
+    .b3{left:30%;bottom:-10%;background:rgba(65,223,169,.45); animation-duration: 16s;}
+    @keyframes drift{
+      0%{transform:translate3d(0,0,0)}
+      50%{transform:translate3d(120px,60px,0)}
+      100%{transform:translate3d(0,0,0)}
+    }
+
+    /* Layout */
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 40px;}
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(7,8,12,.82), rgba(7,8,12,.35));
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .topbar{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+    }
+
+    .brand{display:flex; align-items:center; gap:12px; min-width:0;}
+    .logo{
+      width:40px;height:40px;border-radius:14px;
+      background: var(--grad2);
+      border:1px solid var(--stroke);
+      box-shadow: var(--shadow2);
+      display:grid;place-items:center;
+      position:relative;
+      overflow:hidden;
+    }
+    .logo::after{
+      content:"";
+      position:absolute; inset:-80%;
+      background: var(--grad);
+      opacity:.18;
+      transform: rotate(15deg);
+      animation: shine 2.8s linear infinite;
+    }
+    @keyframes shine{
+      0%{transform:translateX(-40%) rotate(18deg)}
+      100%{transform:translateX(40%) rotate(18deg)}
+    }
+    .logo span{
+      position:relative;
+      font-weight:900;
+      letter-spacing:.2px;
+      font-size:16px;
+    }
+    .titleblock{min-width:0}
+    .titleblock h1{
+      margin:0;
+      font-size:16px;
+      letter-spacing:.3px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .titleblock p{
+      margin:2px 0 0;
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .controls{display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end;}
+    .pill{
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius: 999px;
+      display:flex; align-items:center; gap:8px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+      user-select:none;
+    }
+    .pill small{color:var(--muted2); font-weight:600;}
+    .btn{
+      cursor:pointer;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.07);
+      color: var(--text);
+      padding:10px 12px;
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      font-weight:700;
+      display:flex; align-items:center; gap:8px;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.18);}
+    .btn:active{transform: translateY(0px) scale(.99);}
+
+    main{padding-top:22px;}
+    .hero{
+      padding:22px 18px;
+      border-radius: var(--r);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: var(--grad);
+      opacity:.10;
+      transform: rotate(14deg);
+      filter: blur(18px);
+      animation: heroGlow 10s ease-in-out infinite;
+    }
+    @keyframes heroGlow{
+      0%,100%{transform:translateX(-2%) rotate(14deg)}
+      50%{transform:translateX(2%) rotate(14deg)}
+    }
+    .hero > *{position:relative}
+    .hero h2{margin:0 0 6px; font-size:26px; letter-spacing:.2px;}
+    .hero p{margin:0; color:var(--muted); line-height:1.45; max-width:70ch;}
+    .quick{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:14px;
+    }
+    .chip{
+      text-decoration:none;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      padding:10px 12px;
+      border-radius: 999px;
+      color: var(--text);
+      font-weight:800;
+      display:flex; align-items:center; gap:8px;
+    }
+    .chip span{opacity:.85; font-weight:900}
+    .chip:hover{border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.09);}
+
+    .grid{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+    }
+    @media(min-width: 860px){
+      .grid{grid-template-columns: 1.2fr .8fr;}
+    }
+
+    .card{
+      border-radius: var(--r);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .card .head{
+      padding:16px 18px 12px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+      background: rgba(255,255,255,.04);
+    }
+    .card .head h3{
+      margin:0;
+      font-size:16px;
+      letter-spacing:.25px;
+    }
+    .card .head p{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.35;
+    }
+    .card .body{padding:16px 18px 18px; line-height:1.55;}
+    .card .body p{margin:0 0 12px; color:var(--text);}
+    .card .body ul{margin:8px 0 14px; padding-left:18px; color:var(--text);}
+    .card .body li{margin:6px 0; color:var(--text);}
+    .card .body .muted{color:var(--muted); font-size:13px;}
+    .badge{
+      white-space:nowrap;
+      font-size:12px;
+      font-weight:900;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:rgba(255,255,255,.86);
+    }
+
+    .callout{
+      border-radius: var(--r2);
+      background: rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.10);
+      padding:14px 14px;
+      margin:12px 0;
+    }
+    .callout strong{display:block; margin-bottom:6px;}
+    .kvs{display:grid; grid-template-columns: 1fr; gap:10px; margin-top:8px;}
+    @media(min-width:520px){ .kvs{grid-template-columns: 1fr 1fr;}}
+    .kv{
+      padding:12px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .kv .k{font-size:12px; color:var(--muted2); font-weight:900; letter-spacing:.3px; text-transform:uppercase;}
+    .kv .v{margin-top:6px; font-size:14px; font-weight:800;}
+    a{color:var(--link)}
+    code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: 10px;
+      padding:2px 6px;
+      font-size: .92em;
+    }
+    .footer{
+      margin-top:16px;
+      color: var(--muted2);
+      font-size:12px;
+      text-align:center;
+      padding:12px 0 4px;
+    }
+
+    .sep{
+      height:1px;
+      background: rgba(255,255,255,.08);
+      margin: 14px 0;
+    }
+
+    /* Subtle “game” XP shimmer */
+    .xpbar{
+      height:10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.10);
+      overflow:hidden;
+      position:relative;
+    }
+    .xpfill{
+      height:100%;
+      width: 66%;
+      border-radius:999px;
+      background: var(--grad);
+      opacity:.75;
+      position:relative;
+    }
+    .xpfill::after{
+      content:"";
+      position:absolute; inset:-30%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+      transform: translateX(-60%);
+      animation: shimmer 1.8s ease-in-out infinite;
+    }
+    @keyframes shimmer{
+      0%{transform: translateX(-60%)}
+      100%{transform: translateX(60%)}
+    }
+
+    /* Language toggle (segmented) */
+    .seg{
+      display:flex; border-radius: 14px; overflow:hidden;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+    }
+    .seg button{
+      border:0;
+      background:transparent;
+      color:rgba(255,255,255,.78);
+      font-weight:900;
+      padding:10px 12px;
+      cursor:pointer;
+      display:flex; gap:8px; align-items:center;
+    }
+    .seg button.active{
+      background: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.92);
+    }
+
+    .smallnote{color:var(--muted2); font-size:12px; line-height:1.4;}
+  </style>
+</head>
+
+<body>
+  <div class="aurora" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"><span>IP</span></div>
+        <div class="titleblock">
+          <h1 id="appName">Interview Pilot</h1>
+          <p id="tagline">Support • Privacy • README</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Language">
+          <button id="btnSV" class="active" type="button" onclick="setLang('sv')">🇸🇪 SV</button>
+          <button id="btnEN" type="button" onclick="setLang('en')">🇬🇧 EN</button>
+        </div>
+        <a class="btn" id="emailBtn" href="#" rel="nofollow">✉️ <span id="emailLabel">Kontakta support</span></a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <main>
+      <section class="hero" id="top">
+        <h2 id="heroTitle">Allt på en sida</h2>
+        <p id="heroBody">
+          Den här sidan innehåller <b>README</b>, <b>Support</b> och <b>Privacy Policy</b> för Interview Pilot —
+          på svenska och engelska, redo för GitHub Pages.
+        </p>
+
+        <div class="quick" aria-label="Quick links">
+          <a class="chip" href="#readme">📘 <span id="chipReadme">README</span></a>
+          <a class="chip" href="#support">🛟 <span id="chipSupport">Support</span></a>
+          <a class="chip" href="#privacy">🔒 <span id="chipPrivacy">Integritet</span></a>
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="kvs">
+          <div class="kv">
+            <div class="k" id="kv1k">Byggt för</div>
+            <div class="v" id="kv1v">GitHub Pages</div>
+          </div>
+          <div class="kv">
+            <div class="k" id="kv2k">Kontakt</div>
+            <div class="v"><a id="emailInline" href="#"></a></div>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong id="calloutTitle">Snabbstart</strong>
+          <div class="smallnote" id="calloutBody">
+            Skapa ett repo → lägg in den här filen som <code>index.html</code> → Settings → Pages → Deploy från <code>main</code> (root).
+          </div>
+        </div>
+
+        <div class="xpbar" title="Just a vibe">
+          <div class="xpfill"></div>
+        </div>
+      </section>
+
+      <div class="grid">
+        <!-- README -->
+        <section class="card" id="readme">
+          <div class="head">
+            <div>
+              <h3 id="readmeTitle">README</h3>
+              <p id="readmeSub">Vad appen gör och vad den inte gör.</p>
+            </div>
+            <span class="badge" id="readmeBadge">Info</span>
+          </div>
+          <div class="body">
+            <p id="readmeP1">
+              <b>Interview Pilot</b> hjälper dig hålla koll på jobbsök, förberedelser och intervjuer på ett enkelt och “gamey” sätt.
+            </p>
+
+            <ul>
+              <li id="readmeLi1"><b>My Jobs</b>: spara roller/företag och din status.</li>
+              <li id="readmeLi2"><b>Prep Hub</b>: skapa prep-steg och följ din progress.</li>
+              <li id="readmeLi3"><b>Påminnelser</b>: valfria notiser för intervjuer (om du aktiverar).</li>
+              <li id="readmeLi4"><b>iCloud</b>: valfri synk via iCloud/CloudKit (om du aktiverar).</li>
+            </ul>
+
+            <p class="muted" id="readmeP2">
+              Obs: Funktioner kan variera beroende på iOS-version, behörigheter och om du väljer att aktivera iCloud/notiser.
+            </p>
+
+            <div class="callout">
+              <strong id="readmeCalloutTitle">Tips</strong>
+              <div class="smallnote" id="readmeCalloutBody">
+                Om du ser konstiga texter som <code>some.key.name</code> i appen: kontrollera att nyckeln finns i rätt <code>Localizable.strings</code> för språket.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Sidebar / Meta -->
+        <aside class="card" id="meta">
+          <div class="head">
+            <div>
+              <h3 id="metaTitle">Meta</h3>
+              <p id="metaSub">Kort och tydligt.</p>
+            </div>
+            <span class="badge" id="metaBadge">v1</span>
+          </div>
+          <div class="body">
+            <div class="kvs">
+              <div class="kv">
+                <div class="k" id="m1k">Data</div>
+                <div class="v" id="m1v">På din enhet</div>
+              </div>
+              <div class="kv">
+                <div class="k" id="m2k">Moln</div>
+                <div class="v" id="m2v">Valfritt iCloud</div>
+              </div>
+              <div class="kv">
+                <div class="k" id="m3k">Notiser</div>
+                <div class="v" id="m3v">Valfritt</div>
+              </div>
+              <div class="kv">
+                <div class="k" id="m4k">Support</div>
+                <div class="v"><a id="emailInline2" href="#"></a></div>
+              </div>
+            </div>
+
+            <div class="sep"></div>
+
+            <p class="muted" id="metaP">
+              Den här sidan är gjord för att kunna användas både som GitHub Pages och som länk i App Store Connect (Support/Privacy).
+            </p>
+          </div>
+        </aside>
+      </div>
+
+      <!-- SUPPORT -->
+      <section class="card" id="support" style="margin-top:14px;">
+        <div class="head">
+          <div>
+            <h3 id="supportTitle">Support</h3>
+            <p id="supportSub">Snabb hjälp om något strular.</p>
+          </div>
+          <span class="badge" id="supportBadge">Kontakt</span>
+        </div>
+        <div class="body">
+          <p id="supportP1">
+            Behöver du hjälp? Skicka ett mail med:
+          </p>
+          <ul>
+            <li id="supportLi1">Vilken iPhone/iPad och iOS-version du kör</li>
+            <li id="supportLi2">Vad du försökte göra</li>
+            <li id="supportLi3">En screenshot om möjligt</li>
+          </ul>
+
+          <div class="callout">
+            <strong id="supportCalloutTitle">Kontakt</strong>
+            <div class="smallnote">
+              <span id="supportEmailLabel">Maila</span>:
+              <a id="supportEmailLink" href="#"></a>
+            </div>
+          </div>
+
+          <p class="muted" id="supportP2">
+            Svarstid: vanligtvis inom 1–3 arbetsdagar.
+          </p>
+        </div>
+      </section>
+
+      <!-- PRIVACY -->
+      <section class="card" id="privacy" style="margin-top:14px;">
+        <div class="head">
+          <div>
+            <h3 id="privacyTitle">Integritetspolicy</h3>
+            <p id="privacySub">Vad som lagras, vad som delas och dina val.</p>
+          </div>
+          <span class="badge" id="privacyBadge">Privacy</span>
+        </div>
+        <div class="body">
+          <p id="privacyP1">
+            <b>Interview Pilot</b> är byggd för att vara “privacy-first”. Som standard lagras din data lokalt på din enhet.
+          </p>
+
+          <h4 id="privacyH1">1) Vilken data samlas in?</h4>
+          <p id="privacy1">
+            Appen samlar inte in personlig data för annonsering. Din jobbsöksdata (roller, företag, prep-steg osv) lagras på enheten.
+          </p>
+
+          <h4 id="privacyH2">2) iCloud (valfritt)</h4>
+          <p id="privacy2">
+            Om du aktiverar iCloud synkas din appdata via Apple iCloud/CloudKit till ditt privata iCloud-konto. Apple hanterar infrastrukturen.
+          </p>
+
+          <h4 id="privacyH3">3) Notiser (valfritt)</h4>
+          <p id="privacy3">
+            Om du aktiverar notiser används iOS-notiser för att påminna om intervjuer. Ingen tredjepart får innehållet.
+          </p>
+
+          <h4 id="privacyH4">4) Delning med tredje part</h4>
+          <p id="privacy4">
+            Appen säljer inte din data och delar den inte med tredje part för marknadsföring. Eventuell synk går via Apple om du väljer iCloud.
+          </p>
+
+          <h4 id="privacyH5">5) Datalagring & radering</h4>
+          <p id="privacy5">
+            Du kan radera data genom att ta bort innehåll i appen eller avinstallera appen. Om iCloud är aktivt kan data finnas i ditt iCloud-konto tills den tas bort enligt Apples regler.
+          </p>
+
+          <h4 id="privacyH6">6) Kontakta oss</h4>
+          <p id="privacy6">
+            Frågor? Kontakta: <a id="privacyEmailLink" href="#"></a>
+          </p>
+
+          <div class="sep"></div>
+          <p class="muted" id="privacyP2">
+            Senast uppdaterad: <span id="lastUpdated"></span>
+          </p>
+        </div>
+      </section>
+
+      <div class="footer" id="footerText">
+        © <span id="year"></span> Interview Pilot • Support & Privacy
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // ✅ ÄNDRA DETTA
+    const EMAIL = "support@interviewpilot.app";
+
+    // Auto “Last updated”
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    document.getElementById("year").textContent = String(yyyy);
+
+    const iso = now.toISOString().slice(0,10);
+    document.getElementById("lastUpdated").textContent = iso;
+
+    function setEmailLinks() {
+      const mailto = "mailto:" + EMAIL;
+      const labelSV = "Kontakta support";
+      const labelEN = "Contact support";
+
+      document.getElementById("emailBtn").href = mailto;
+      document.getElementById("emailInline").href = mailto;
+      document.getElementById("emailInline").textContent = EMAIL;
+      document.getElementById("emailInline2").href = mailto;
+      document.getElementById("emailInline2").textContent = EMAIL;
+
+      document.getElementById("supportEmailLink").href = mailto;
+      document.getElementById("supportEmailLink").textContent = EMAIL;
+
+      document.getElementById("privacyEmailLink").href = mailto;
+      document.getElementById("privacyEmailLink").textContent = EMAIL;
+    }
+    setEmailLinks();
+
+    const strings = {
+      sv: {
+        appName: "Interview Pilot",
+        tagline: "Support • Integritet • README",
+        emailLabel: "Kontakta support",
+
+        heroTitle: "Allt på en sida",
+        heroBody: "Den här sidan innehåller README, Support och Integritetspolicy för Interview Pilot — på svenska och engelska, redo för GitHub Pages.",
+        chipReadme: "README",
+        chipSupport: "Support",
+        chipPrivacy: "Integritet",
+
+        kv1k: "Byggt för",
+        kv1v: "GitHub Pages",
+        kv2k: "Kontakt",
+        calloutTitle: "Snabbstart",
+        calloutBody: "Skapa ett repo → lägg in den här filen som index.html → Settings → Pages → Deploy från main (root).",
+
+        readmeTitle: "README",
+        readmeSub: "Vad appen gör och vad den inte gör.",
+        readmeBadge: "Info",
+        readmeP1: "Interview Pilot hjälper dig hålla koll på jobbsök, förberedelser och intervjuer på ett enkelt och “gamey” sätt.",
+        readmeLi1: "My Jobs: spara roller/företag och din status.",
+        readmeLi2: "Prep Hub: skapa prep-steg och följ din progress.",
+        readmeLi3: "Påminnelser: valfria notiser för intervjuer (om du aktiverar).",
+        readmeLi4: "iCloud: valfri synk via iCloud/CloudKit (om du aktiverar).",
+        readmeP2: "Obs: Funktioner kan variera beroende på iOS-version, behörigheter och om du väljer att aktivera iCloud/notiser.",
+        readmeCalloutTitle: "Tips",
+        readmeCalloutBody: "Om du ser konstiga texter som some.key.name i appen: kontrollera att nyckeln finns i rätt Localizable.strings för språket.",
+
+        metaTitle: "Meta",
+        metaSub: "Kort och tydligt.",
+        metaBadge: "v1",
+        m1k: "Data",
+        m1v: "På din enhet",
+        m2k: "Moln",
+        m2v: "Valfritt iCloud",
+        m3k: "Notiser",
+        m3v: "Valfritt",
+        m4k: "Support",
+        metaP: "Den här sidan är gjord för att kunna användas både som GitHub Pages och som länk i App Store Connect (Support/Privacy).",
+
+        supportTitle: "Support",
+        supportSub: "Snabb hjälp om något strular.",
+        supportBadge: "Kontakt",
+        supportP1: "Behöver du hjälp? Skicka ett mail med:",
+        supportLi1: "Vilken iPhone/iPad och iOS-version du kör",
+        supportLi2: "Vad du försökte göra",
+        supportLi3: "En screenshot om möjligt",
+        supportCalloutTitle: "Kontakt",
+        supportEmailLabel: "Maila",
+        supportP2: "Svarstid: vanligtvis inom 1–3 arbetsdagar.",
+
+        privacyTitle: "Integritetspolicy",
+        privacySub: "Vad som lagras, vad som delas och dina val.",
+        privacyBadge: "Privacy",
+        privacyP1: "Interview Pilot är byggd för att vara “privacy-first”. Som standard lagras din data lokalt på din enhet.",
+        privacyH1: "1) Vilken data samlas in?",
+        privacy1: "Appen samlar inte in personlig data för annonsering. Din jobbsöksdata (roller, företag, prep-steg osv) lagras på enheten.",
+        privacyH2: "2) iCloud (valfritt)",
+        privacy2: "Om du aktiverar iCloud synkas din appdata via Apple iCloud/CloudKit till ditt privata iCloud-konto. Apple hanterar infrastrukturen.",
+        privacyH3: "3) Notiser (valfritt)",
+        privacy3: "Om du aktiverar notiser används iOS-notiser för att påminna om intervjuer. Ingen tredjepart får innehållet.",
+        privacyH4: "4) Delning med tredje part",
+        privacy4: "Appen säljer inte din data och delar den inte med tredje part för marknadsföring. Eventuell synk går via Apple om du väljer iCloud.",
+        privacyH5: "5) Datalagring & radering",
+        privacy5: "Du kan radera data genom att ta bort innehåll i appen eller avinstallera appen. Om iCloud är aktivt kan data finnas i ditt iCloud-konto tills den tas bort enligt Apples regler.",
+        privacyH6: "6) Kontakta oss",
+        privacy6Prefix: "Frågor? Kontakta:",
+        privacyP2: "Senast uppdaterad:",
+        footerText: "© " + yyyy + " Interview Pilot • Support & Integritet"
+      },
+
+      en: {
+        appName: "Interview Pilot",
+        tagline: "Support • Privacy • README",
+        emailLabel: "Contact support",
+
+        heroTitle: "Everything on one page",
+        heroBody: "This page includes the README, Support and Privacy Policy for Interview Pilot — in Swedish and English, ready for GitHub Pages.",
+        chipReadme: "README",
+        chipSupport: "Support",
+        chipPrivacy: "Privacy",
+
+        kv1k: "Built for",
+        kv1v: "GitHub Pages",
+        kv2k: "Contact",
+        calloutTitle: "Quick start",
+        calloutBody: "Create a repo → add this file as index.html → Settings → Pages → Deploy from main (root).",
+
+        readmeTitle: "README",
+        readmeSub: "What the app does — and what it does not.",
+        readmeBadge: "Info",
+        readmeP1: "Interview Pilot helps you track job applications, preparation, and interviews in a simple, game-like way.",
+        readmeLi1: "My Jobs: store roles/companies and track status.",
+        readmeLi2: "Prep Hub: create prep steps and track progress.",
+        readmeLi3: "Reminders: optional interview notifications (if enabled).",
+        readmeLi4: "iCloud: optional sync via iCloud/CloudKit (if enabled).",
+        readmeP2: "Note: Features may vary depending on iOS version, permissions, and whether you enable iCloud/notifications.",
+        readmeCalloutTitle: "Tip",
+        readmeCalloutBody: "If you see raw keys like some.key.name in the app: make sure the key exists in the correct Localizable.strings for that language.",
+
+        metaTitle: "Meta",
+        metaSub: "Short and clear.",
+        metaBadge: "v1",
+        m1k: "Data",
+        m1v: "On your device",
+        m2k: "Cloud",
+        m2v: "Optional iCloud",
+        m3k: "Notifications",
+        m3v: "Optional",
+        m4k: "Support",
+        metaP: "This page is designed to work both as GitHub Pages and as the Support/Privacy link for App Store Connect.",
+
+        supportTitle: "Support",
+        supportSub: "Fast help if something is wrong.",
+        supportBadge: "Contact",
+        supportP1: "Need help? Email us with:",
+        supportLi1: "Your iPhone/iPad model and iOS version",
+        supportLi2: "What you were trying to do",
+        supportLi3: "A screenshot if possible",
+        supportCalloutTitle: "Contact",
+        supportEmailLabel: "Email",
+        supportP2: "Response time: usually within 1–3 business days.",
+
+        privacyTitle: "Privacy Policy",
+        privacySub: "What’s stored, what’s shared, and your choices.",
+        privacyBadge: "Privacy",
+        privacyP1: "Interview Pilot is built privacy-first. By default, your data is stored locally on your device.",
+        privacyH1: "1) What data is collected?",
+        privacy1: "The app does not collect personal data for advertising. Your job tracking data (roles, companies, prep steps, etc.) is stored on-device.",
+        privacyH2: "2) iCloud (optional)",
+        privacy2: "If you enable iCloud, your app data syncs via Apple iCloud/CloudKit to your private iCloud account. Apple operates the infrastructure.",
+        privacyH3: "3) Notifications (optional)",
+        privacy3: "If you enable notifications, iOS notifications are used to remind you about interviews. No third party receives the content.",
+        privacyH4: "4) Third-party sharing",
+        privacy4: "The app does not sell your data and does not share it with third parties for marketing. Any sync happens via Apple if you opt into iCloud.",
+        privacyH5: "5) Data retention & deletion",
+        privacy5: "You can delete data by removing content in the app or uninstalling the app. If iCloud is enabled, data may remain in your iCloud account until removed according to Apple’s rules.",
+        privacyH6: "6) Contact us",
+        privacy6Prefix: "Questions? Contact:",
+        privacyP2: "Last updated:",
+        footerText: "© " + yyyy + " Interview Pilot • Support & Privacy"
+      }
+    };
+
+    function setLang(lang){
+      const s = strings[lang] || strings.sv;
+
+      document.documentElement.lang = (lang === "en") ? "en" : "sv";
+      document.getElementById("btnSV").classList.toggle("active", lang === "sv");
+      document.getElementById("btnEN").classList.toggle("active", lang === "en");
+
+      // Header
+      document.getElementById("appName").textContent = s.appName;
+      document.getElementById("tagline").textContent = s.tagline;
+      document.getElementById("emailLabel").textContent = s.emailLabel;
+
+      // Hero
+      document.getElementById("heroTitle").textContent = s.heroTitle;
+      document.getElementById("heroBody").textContent = s.heroBody;
+      document.getElementById("chipReadme").textContent = s.chipReadme;
+      document.getElementById("chipSupport").textContent = s.chipSupport;
+      document.getElementById("chipPrivacy").textContent = s.chipPrivacy;
+
+      document.getElementById("kv1k").textContent = s.kv1k;
+      document.getElementById("kv1v").textContent = s.kv1v;
+      document.getElementById("kv2k").textContent = s.kv2k;
+      document.getElementById("calloutTitle").textContent = s.calloutTitle;
+      document.getElementById("calloutBody").textContent = s.calloutBody;
+
+      // README
+      document.getElementById("readmeTitle").textContent = s.readmeTitle;
+      document.getElementById("readmeSub").textContent = s.readmeSub;
+      document.getElementById("readmeBadge").textContent = s.readmeBadge;
+      document.getElementById("readmeP1").textContent = s.readmeP1;
+      document.getElementById("readmeLi1").textContent = s.readmeLi1;
+      document.getElementById("readmeLi2").textContent = s.readmeLi2;
+      document.getElementById("readmeLi3").textContent = s.readmeLi3;
+      document.getElementById("readmeLi4").textContent = s.readmeLi4;
+      document.getElementById("readmeP2").textContent = s.readmeP2;
+      document.getElementById("readmeCalloutTitle").textContent = s.readmeCalloutTitle;
+      document.getElementById("readmeCalloutBody").textContent = s.readmeCalloutBody;
+
+      // Meta
+      document.getElementById("metaTitle").textContent = s.metaTitle;
+      document.getElementById("metaSub").textContent = s.metaSub;
+      document.getElementById("metaBadge").textContent = s.metaBadge;
+      document.getElementById("m1k").textContent = s.m1k;
+      document.getElementById("m1v").textContent = s.m1v;
+      document.getElementById("m2k").textContent = s.m2k;
+      document.getElementById("m2v").textContent = s.m2v;
+      document.getElementById("m3k").textContent = s.m3k;
+      document.getElementById("m3v").textContent = s.m3v;
+      document.getElementById("m4k").textContent = s.m4k;
+      document.getElementById("metaP").textContent = s.metaP;
+
+      // Support
+      document.getElementById("supportTitle").textContent = s.supportTitle;
+      document.getElementById("supportSub").textContent = s.supportSub;
+      document.getElementById("supportBadge").textContent = s.supportBadge;
+      document.getElementById("supportP1").textContent = s.supportP1;
+      document.getElementById("supportLi1").textContent = s.supportLi1;
+      document.getElementById("supportLi2").textContent = s.supportLi2;
+      document.getElementById("supportLi3").textContent = s.supportLi3;
+      document.getElementById("supportCalloutTitle").textContent = s.supportCalloutTitle;
+      document.getElementById("supportEmailLabel").textContent = s.supportEmailLabel;
+      document.getElementById("supportP2").textContent = s.supportP2;
+
+      // Privacy
+      document.getElementById("privacyTitle").textContent = s.privacyTitle;
+      document.getElementById("privacySub").textContent = s.privacySub;
+      document.getElementById("privacyBadge").textContent = s.privacyBadge;
+      document.getElementById("privacyP1").textContent = s.privacyP1;
+
+      document.getElementById("privacyH1").textContent = s.privacyH1;
+      document.getElementById("privacy1").textContent = s.privacy1;
+
+      document.getElementById("privacyH2").textContent = s.privacyH2;
+      document.getElementById("privacy2").textContent = s.privacy2;
+
+      document.getElementById("privacyH3").textContent = s.privacyH3;
+      document.getElementById("privacy3").textContent = s.privacy3;
+
+      document.getElementById("privacyH4").textContent = s.privacyH4;
+      document.getElementById("privacy4").textContent = s.privacy4;
+
+      document.getElementById("privacyH5").textContent = s.privacyH5;
+      document.getElementById("privacy5").textContent = s.privacy5;
+
+      document.getElementById("privacyH6").textContent = s.privacyH6;
+
+      // Privacy contact sentence (keep link)
+      const privacy6 = document.getElementById("privacy6");
+      privacy6.textContent = s.privacy6Prefix + " ";
+      const link = document.getElementById("privacyEmailLink");
+      privacy6.appendChild(link);
+
+      // Footer
+      document.getElementById("footerText").textContent = s.footerText;
+    }
+
+    // Default to Swedish, but respect browser language if English
+    const prefersEN = (navigator.language || "").toLowerCase().startsWith("en");
+    setLang(prefersEN ? "en" : "sv");
+  </script>
+</body>
+</html>
 
